@@ -1,0 +1,6 @@
+{% extends "base" %}
+{% block body %}
+
+{{content | safe}}
+
+{% endblock %}

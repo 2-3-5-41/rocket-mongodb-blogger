@@ -1,0 +1,15 @@
+{%extends "base"%}
+{%block body%}
+
+<h1>Rocket &heartsuit; MongoDB &heartsuit; Commonmark</h1>
+<div>
+    <p>If you are an admin, login here:</p>
+    <a href="/admin/dashboard" class="button">Admin Login</a>
+</div> 
+
+<div>
+    <p>If you are a viewer, or visitor, feel free to read some posts.</p>
+    <a href="/blog/" class="button">Index</a>
+</div>
+
+{%endblock%}

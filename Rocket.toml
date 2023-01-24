@@ -1,0 +1,5 @@
+[default]
+# secret_key = <openssl rand -base64 32> # This will be used by rocket in release as the encryption key for private cookies. 
+
+[default.databases.mongodb]
+url = "mongodb+srv://<username>:<password>@cluster0.gpsomlm.mongodb.net/?retryWrites=true&w=majority"

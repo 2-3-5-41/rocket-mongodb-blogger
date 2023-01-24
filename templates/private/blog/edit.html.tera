@@ -1,0 +1,20 @@
+{% extends "base" %}
+{% block body %}
+<h1>Edit post: {{uuid}}</h1>
+<p>Update author: {{admin}}</p>
+<form action=/admin/post/update?uuid={{uuid}} method="post" class="form">
+    <div class="input">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" value={{title}}>
+    </div>
+    <div class="input">
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" value={{description}}>
+    </div>
+    <div class="input">
+        <label for="body">Body</label>
+        <textarea name="body" id="body" cols="30" rows="10">{{body}}</textarea>
+    </div>
+    <input type="submit" value="Update">
+</form>
+{% endblock %}

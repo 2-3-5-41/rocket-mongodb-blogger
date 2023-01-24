@@ -1,0 +1,24 @@
+{% extends "base" %}
+{% block body %}
+
+<h1>Welcome, {{admin}}!</h1>
+<form action="/admin/logout" method="post">
+    <input type="submit" value="Logout">
+</form>
+<a href="/admin/post/new" class="button">Create Blog</a>
+
+<section class="blog_posts">
+    {% for post in blog_posts %}
+
+    <div class="post">
+        <h2>{{post.title}}</h2>
+        <p>{{post.description}}</p>
+        <a href=/admin/post/edit?uuid={{post.uuid}} class="button">Edit</a>
+        <a href=/admin/post/delete?uuid={{post.uuid}} class="button">Delete</a>
+        <a href=/blog/post?uuid={{post.uuid}} class="button">View</a>
+    </div>
+
+    {% endfor %}
+</section>
+
+{% endblock %}

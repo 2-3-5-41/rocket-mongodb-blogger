@@ -1,0 +1,23 @@
+[package]
+name = "rocket-mongodb-blog"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = { version = "0.5.0-rc.2", features = ["secrets"] } # "secrets" feature opens the use for private cookies.
+bcrypt = "0.13.0" # For password hashing.
+mongodb = "2.3.1"
+serde = "1.0.152"
+uuid = { version= "1.2.2", features= ["v4", "fast-rng"] }
+futures = "0.3"
+pulldown-cmark = "0.9.2"
+
+[dependencies.rocket_db_pools]
+version = "0.1.0-rc.2"
+features = ["mongodb"]
+
+[dependencies.rocket_dyn_templates]
+version = "0.1.0-rc.2"
+features = ["tera"]
