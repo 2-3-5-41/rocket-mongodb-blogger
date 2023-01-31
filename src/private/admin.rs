@@ -33,7 +33,11 @@ pub struct AdminAuth<'r> {
 
 // API calls
 #[get("/login")]
-pub async fn admin_form(flash: Option<FlashMessage<'_>>) -> Template {
+pub async fn admin_checkpoint(_admin: AdminAccount) -> Redirect {
+    Redirect::to(uri!("/admin", admin_dash))
+}
+#[get("/login", rank = 2)]
+pub async fn admin_login(flash: Option<FlashMessage<'_>>) -> Template {
     Template::render("private/admin/login", context!{
         document_title: "Admin Login",
         login_error: flash.map(|flash| format!("{}", flash.message()))
@@ -42,7 +46,7 @@ pub async fn admin_form(flash: Option<FlashMessage<'_>>) -> Template {
 }
 
 #[post("/login", data = "<auth>")]
-pub async fn admin_login(auth: Form<AdminAuth<'_>>, db: Connection<MongoDB>, jar: &CookieJar<'_>) -> Result<Redirect, Flash<Redirect>> {    
+pub async fn admin_auth(auth: Form<AdminAuth<'_>>, db: Connection<MongoDB>, jar: &CookieJar<'_>) -> Result<Redirect, Flash<Redirect>> {    
     let collection = db.database("rocket_blog").collection::<Document>("admins");
     let filter = doc!{"username": &auth.username};
     let pointer = collection.find_one(filter, None).await.unwrap();
@@ -55,10 +59,10 @@ pub async fn admin_login(auth: Form<AdminAuth<'_>>, db: Connection<MongoDB>, jar
                 
                 Ok(Redirect::to(uri!("/admin", admin_dash)))
             } else {
-                Err(Flash::error(Redirect::to(uri!("/admin", admin_form)), "Invalid password."))
+                Err(Flash::error(Redirect::to(uri!("/admin", admin_checkpoint)), "Invalid password."))
             }
         },
-        None => Err(Flash::error(Redirect::to(uri!("/admin", admin_form)), "No such admin exists."))
+        None => Err(Flash::error(Redirect::to(uri!("/admin", admin_checkpoint)), "No such admin exists."))
     }
 }
 
@@ -67,7 +71,7 @@ pub async fn admin_logout(jar: &CookieJar<'_>) -> Flash<Redirect> {
     let admin = jar.get_private("admin");
     
     match admin {
-        None => Flash::error(Redirect::to(uri!("/admin", admin_form)), "Can't log you out if you aren't logged in."),
+        None => Flash::error(Redirect::to(uri!("/admin", admin_checkpoint)), "Can't log you out if you aren't logged in."),
         Some(cookie) => {
             jar.remove_private(cookie);
             return Flash::success(Redirect::to(uri!("/admin", admin_login)), "You've been successfully logged out.");

@@ -32,7 +32,8 @@ fn rocket() -> _ {
         // Routes
         .mount("/", routes![public::index])
         .mount("/admin", routes![
-            private::admin::admin_form,
+            private::admin::admin_checkpoint,
+            private::admin::admin_auth,
             private::admin::admin_login,
             private::admin::admin_logout,
             private::admin::admin_dash,
